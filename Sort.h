@@ -13,10 +13,13 @@ private:
 	void Merge(vector<int> & vec, int p, int q,int r);
 	void MergeSort(vector<int> & vec, int p, int r);
 	void RandomQuickSort(vector<int> & vec, int p, int r);
+	void percDown(vector<int> & vec,int i,int n);
+	int leftchild(int i);
 public:
-	void BubbleSort(vector<int> & vec);//Ã°ÅİÅÅĞò
-	void MergeSort(vector<int> & vec);//¹é²¢ÅÅĞò
-	void QuickSort(vector<int> & vec);//¿ìËÙÅÅĞò
-	void RandomQuickSort(vector<int> & vec);//¿ìËÙÅÅĞòËæ»ú°æ±¾
-	void InsertionSort(vector<int> & vec);//²åÈëÅÅĞò
+	void BubbleSort(vector<int> & vec);//å†’æ³¡æ’åº
+	void MergeSort(vector<int> & vec);//å½’å¹¶æ’åº
+	void QuickSort(vector<int> & vec);//å¿«é€Ÿæ’åº
+	void RandomQuickSort(vector<int> & vec);//å¿«é€Ÿæ’åºéšæœºç‰ˆæœ¬
+	void InsertionSort(vector<int> & vec);//æ’å…¥æ’åº
+	void HeapSort(vector<int> & vec);//å †æ’åº
 };
