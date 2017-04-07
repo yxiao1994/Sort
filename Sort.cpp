@@ -1,8 +1,8 @@
 #include "Sort.h"
-//ÏÂÃæÊÇ¿ìËÙÅÅĞòµÄÊµÏÖ
+//ä¸‹é¢æ˜¯å¿«é€Ÿæ’åºçš„å®ç°
 void Sort::QuickSort(vector<int> & vec, int p, int r) {
-	 if(p<r){//Ò»¶¨Òª×¢ÒâÕâÀïµÄÅĞ¶Ï£¬²»È»»áÎŞÏŞµİ¹éÏÂÈ¥£¬ÁíÍâÕâÀïÊÇĞ¡ÓÚ£¬²»ÊÇĞ¡ÓÚµÈÓÚ
-		int q = PARTITION(vec, p, r);//qÊÇÊı×éÖĞµÚq-p+1´óµÄÔªËØ
+	 if(p<r){//ä¸€å®šè¦æ³¨æ„è¿™é‡Œçš„åˆ¤æ–­ï¼Œä¸ç„¶ä¼šæ— é™é€’å½’ä¸‹å»ï¼Œå¦å¤–è¿™é‡Œæ˜¯å°äºï¼Œä¸æ˜¯å°äºç­‰äº
+		int q = PARTITION(vec, p, r);//qæ˜¯æ•°ç»„ä¸­ç¬¬q-p+1å¤§çš„å…ƒç´ 
 		QuickSort(vec, p, q - 1);
 		QuickSort(vec, q + 1, r);
 	}
@@ -10,19 +10,22 @@ void Sort::QuickSort(vector<int> & vec, int p, int r) {
 void Sort::QuickSort(vector<int> & vec) {
 	QuickSort(vec, 0, vec.size() - 1);
 }
-//ÏÂÃæÊÇËæ»ú°æ±¾µÄ¿ìËÙÅÅĞò
-void Sort::RandomQuickSort(vector<int>& vec)//Ëæ»ú°æ±¾¿ìËÙÅÅĞò
+//ä¸‹é¢æ˜¯éšæœºç‰ˆæœ¬çš„å¿«é€Ÿæ’åº
+void Sort::RandomQuickSort(vector<int>& vec)//éšæœºç‰ˆæœ¬å¿«é€Ÿæ’åº
 {
 	RandomQuickSort(vec, 0, vec.size() - 1);
 }
 void Sort::RandomQuickSort(vector<int>& vec, int p, int r)
 {
 	srand(time(0));
-	int k = p+(rand()%(r-p));//Ëæ»úÑ¡ÔñÒ»¸öÖĞÊàµã
+	int k = p+(rand()%(r-p));//éšæœºé€‰æ‹©ä¸€ä¸ªä¸­æ¢ç‚¹
 	exchange(vec[k], vec[r]);
 	QuickSort(vec, p, r);
 }
-int Sort::PARTITION(vector<int> & vec, int p, int r) {//PARTITION¹ı³Ì£¬²Î¼ûËã·¨µ¼ÂÛ
+
+
+
+int Sort::PARTITION(vector<int> & vec, int p, int r) {//PARTITIONè¿‡ç¨‹ï¼Œå‚è§ç®—æ³•å¯¼è®º
 	int x = vec[r];
 	int i = p - 1;
 	for (int j = p; j < r; j++) {
@@ -34,8 +37,8 @@ int Sort::PARTITION(vector<int> & vec, int p, int r) {//PARTITION¹ı³Ì£¬²Î¼ûËã·¨µ
 	exchange(vec[i + 1], vec[r]);
 	return i + 1;
 }
-//ÏÂÃæÊÇ²åÈëÅÅĞòµÄÊµÏÖ
-void Sort::InsertionSort(vector<int> & vec) {//²åÈëÅÅĞòµÄÊµÏÖ
+//ä¸‹é¢æ˜¯æ’å…¥æ’åºçš„å®ç°
+void Sort::InsertionSort(vector<int> & vec) {//æ’å…¥æ’åºçš„å®ç°
 	for (int j = 1; j < vec.size(); j++) {
 		int key = vec[j];
 		int i = j - 1;
@@ -46,25 +49,54 @@ void Sort::InsertionSort(vector<int> & vec) {//²åÈëÅÅĞòµÄÊµÏÖ
 		vec[i + 1] = key;
 	}
 }
-//ÏÂÃæÊÇ¹é²¢ÅÅĞòµÄÊµÏÖ
+//ä¸‹é¢æ˜¯å †æ’åºçš„å®ç°
+void Sort::HeapSort(vector<int>& vec)
+{
+	for (int i = vec.size() / 2; i >= 0; i--) {//å»ºå †è¿‡ç¨‹
+		percDown(vec, i,vec.size());
+	}
+	for (int i = vec.size() - 1; i > 0; i--) {//
+		exchange(vec[i], vec[0]);
+		percDown(vec,0,i);
+	}
+}
+int Sort::leftchild(int i)
+{
+	return 2*i+1;
+}
+void Sort::percDown(vector<int>& vec, int i,int n)//ç»´æŠ¤å †è¿‡ç¨‹
+{
+	int child;
+	int key = vec[i];
+	for (; leftchild(i) < n; i = child) {
+		child = leftchild(i);
+		if ((child!=n-1)&&(vec[child] < vec[child + 1]))
+			child++;
+		if (key < vec[child])
+			vec[i] = vec[child];
+		else break;	
+	}
+	vec[i] = key;
+}
+//ä¸‹é¢æ˜¯å½’å¹¶æ’åºçš„å®ç°
 void Sort::MergeSort(vector<int> & vec) {
 	MergeSort(vec, 0, vec.size() - 1);
 }
 void Sort::MergeSort(vector<int> & vec, int p, int r) {
-	if (p < r) {//ºÍ¿ìËÙÅÅĞòÒ»Ñù£¬ĞèÒª×¢ÒâÖÕÖ¹Ìõ¼ş
+	if (p < r) {//å’Œå¿«é€Ÿæ’åºä¸€æ ·ï¼Œéœ€è¦æ³¨æ„ç»ˆæ­¢æ¡ä»¶
 		int q = (p + r) / 2;
-		MergeSort(vec, p, q);//ÏÈ½«×ó°ë²¿·ÖÅÅĞò
-		MergeSort(vec, q + 1, r);//ÔÙ½«ÓÒ°ë²¿·ÖÊı×éÅÅĞò
-		Merge(vec, p, q, r);//ºÏ²¢Á½¸öÒÑ¾­ÅÅĞòºÃµÄÊı×é
+		MergeSort(vec, p, q);//å…ˆå°†å·¦åŠéƒ¨åˆ†æ’åº
+		MergeSort(vec, q + 1, r);//å†å°†å³åŠéƒ¨åˆ†æ•°ç»„æ’åº
+		Merge(vec, p, q, r);//åˆå¹¶ä¸¤ä¸ªå·²ç»æ’åºå¥½çš„æ•°ç»„
 	}
 }
-void Sort::Merge(vector<int> & vec, int p, int q, int r) {//¹é²¢ÅÅĞòµÄmerge¹ı³Ì£¬²Î¼ûËã·¨µ¼ÂÛ
+void Sort::Merge(vector<int> & vec, int p, int q, int r) {//å½’å¹¶æ’åºçš„mergeè¿‡ç¨‹ï¼Œå‚è§ç®—æ³•å¯¼è®º
 	int n1 = q - p + 1;
 	int n2 = r - q;
 	int *L = new int[n1 + 1];
 	int *R = new int[n2 + 1];
-	L[n1] = MAX;//ÉèÖÃÉÚ±ø
-	R[n2] = MAX;//ÉèÖÃÉÚ±ø
+	L[n1] = MAX;//è®¾ç½®å“¨å…µ
+	R[n2] = MAX;//è®¾ç½®å“¨å…µ
 	for (int i = 0; i < n1; i++)
 		L[i] = vec[p + i];
 	for (int j = 0; j < n2; j++)
@@ -82,8 +114,8 @@ void Sort::Merge(vector<int> & vec, int p, int q, int r) {//¹é²¢ÅÅĞòµÄmerge¹ı³Ì£
 	delete[]L;
 	delete[]R;
 }
-//ÏÂÃæÊÇÃ°ÅİÅÅĞòµÄÊµÏÖ
-void Sort::BubbleSort(vector<int>& vec)//Ã°ÅİÅÅĞòµÄÊµÏÖ
+//ä¸‹é¢æ˜¯å†’æ³¡æ’åºçš„å®ç°
+void Sort::BubbleSort(vector<int>& vec)//å†’æ³¡æ’åºçš„å®ç°
 {
 	for (int i = 0; i < vec.size(); i++) {
 		for (int j = 0; j < vec.size() - i - 1; j++) {
@@ -95,7 +127,7 @@ void Sort::BubbleSort(vector<int>& vec)//Ã°ÅİÅÅĞòµÄÊµÏÖ
 		}
 	}
 }
-void Sort::exchange(int &a, int &b) {//½»»»Á½¸öÔªËØ,Ò»¶¨ÒªÓÃÒıÓÃ
+void Sort::exchange(int &a, int &b) {//äº¤æ¢ä¸¤ä¸ªå…ƒç´ ,ä¸€å®šè¦ç”¨å¼•ç”¨
 	int temp;
 	temp = a;
 	a = b;
